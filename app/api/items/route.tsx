@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
+import { NextApiResponse } from "next";
 
 type KoopItem = {
   id: number; // Changed Number to number
@@ -57,7 +58,10 @@ export async function GET(req: NextRequest) {
     }
 
     console.log(koopItems);
-    return NextResponse.json(koopItems, { status: 200 });
+    // response.headers.set('Cache-Control', 'no-store');
+    const res = NextResponse.json(koopItems, { status: 200 });
+    res.headers.set("Cache-Control", "no-store");
+    return res;
     /* } catch (error) {
     console.error("Error occurred:", error);
     return NextResponse.json(
