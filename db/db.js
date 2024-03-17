@@ -19,3 +19,13 @@ export async function loadItem(tableName, rowName, rowVal) {
   if (error) return error;
   return data[0];
 }
+
+export async function loadAllItems(tableName, count = 10) {
+  let { data, error } = await supabase
+    .from(tableName)
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) return error;
+  return data;
+}
