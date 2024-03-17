@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
 import { NextApiResponse } from "next";
 
+export const dynamic = "force-dynamic";
+
 type KoopItem = {
   id: number; // Changed Number to number
   created_at: Date;

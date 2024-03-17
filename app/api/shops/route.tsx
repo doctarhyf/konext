@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
 
+export const dynamic = "force-dynamic";
+
 type KoopShop = {
   id: number; // Changed Number to number
   created_at: Date;
