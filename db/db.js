@@ -3,7 +3,8 @@ export async function loadAllComments(item_id) {
   let { data, error } = await supabase
     .from("koop_comments")
     .select("*")
-    .eq("item_id", item_id);
+    .eq("item_id", item_id)
+    .order("created_at", { ascending: false });
 
   if (error) return error;
   return data;
