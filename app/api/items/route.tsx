@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
           shop_whatsapp: shop_whatsapp,
           shop_wechat: shop_wechat,
           shop_tiktok: shop_tiktok,
-          shop_facebook: shop_tiktok,
+          shop_facebook: shop_facebook,
         };
         koopItems.push(finalKoopItem);
       }
