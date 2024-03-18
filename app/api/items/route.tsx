@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
-import { NextApiResponse } from "next";
 
 export const dynamic = "force-dynamic";
 
@@ -22,22 +21,18 @@ type KoopItem = {
   //user info
   user_display_name: string;
   user_profile: string;
+  //shop
   shop_name: string;
   shop_profile: string;
+  shop_desc: string;
+  shop_email: string;
+  shop_whatsapp: string;
+  shop_wechat: string;
+  shop_tiktok: string;
+  shop_facebook: string;
 };
 
 export async function GET(req: NextRequest) {
-  // try {
-  //const url = new URL(req.url);
-  //const id = url.searchParams.get("id");
-
-  /* if (!id) {
-      return NextResponse.json(
-        { error: "ID parameter is missing" },
-        { status: 400 }
-      );
-    } */
-
   const loadedKoopItems = await SB.loadAllItems("koop_items");
   const koopItems: KoopItem[] = [];
 
@@ -47,23 +42,40 @@ export async function GET(req: NextRequest) {
       const user = await SB.loadItem("koop_users", "id", user_id);
 
       if (user) {
-        const { display_name, profile, shop_name, shop_profile } = user;
+        const {
+          display_name,
+          profile,
+          shop_name,
+          shop_profile,
+          shop_desc,
+          shop_email,
+          shop_whatsapp,
+          shop_wechat,
+          shop_tiktok,
+          shop_facebook,
+        } = user;
         const finalKoopItem: KoopItem = {
           ...koopItem,
+          //user info
           user_display_name: display_name,
           user_profile: profile,
+          //shop info
+
           shop_name: shop_name,
           shop_profile: shop_profile,
+          shop_desc: shop_desc,
+          shop_email: shop_email,
+          shop_whatsapp: shop_whatsapp,
+          shop_wechat: shop_wechat,
+          shop_tiktok: shop_tiktok,
+          shop_facebook: shop_tiktok,
         };
         koopItems.push(finalKoopItem);
       }
     }
 
     console.log(koopItems);
-    // response.headers.set('Cache-Control', 'no-store');
-    const res = NextResponse.json(koopItems, { status: 200 });
-    res.headers.set("Cache-Control", "no-store");
-    return res;
+    return NextResponse.json(koopItems, { status: 200 });
     /* } catch (error) {
     console.error("Error occurred:", error);
     return NextResponse.json(
