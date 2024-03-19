@@ -1,5 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
 
+export const TABLE_NAMES = {
+  KOOP_USERS: "koop_users",
+  KOOP_SHOPS: "koop_shops",
+  KOOP_ITEMS: "koop_items",
+  KOOP_COMMENTS: "koop_comments",
+  KOOP_MSG_OUTBOX: "koop_messages_out",
+  KOOP_MSG_INBOX: "koop_messages_in",
+};
+
 // Initialize Supabase client
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
