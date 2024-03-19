@@ -77,7 +77,7 @@ export async function GET(req) {
 
     const messages = { inbox: inbox, outbox: outbox };
 
-    console.log(messages);
+    // console.log(Object.keys(messages.outbox[0]));
     return NextResponse.json(messages, { status: 200 });
   } catch (error) {
     console.error("Error occurred:", error);
