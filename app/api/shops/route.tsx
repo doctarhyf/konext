@@ -10,6 +10,12 @@ type KoopShop = {
   shop_tags: string;
   shop_desc: string;
   shop_profile: string;
+
+  shop_email: string;
+  shop_whatsapp: string;
+  shop_wechat: string;
+  shop_tiktok: string;
+  shop_facebook: string;
 };
 
 export async function GET(req: NextRequest) {
@@ -29,8 +35,19 @@ export async function GET(req: NextRequest) {
 
   if (Array.isArray(loadedUsers)) {
     for (const koopUser of loadedUsers) {
-      const { id, created_at, shop_name, shop_tags, shop_desc, shop_profile } =
-        koopUser;
+      const {
+        id,
+        created_at,
+        shop_name,
+        shop_tags,
+        shop_desc,
+        shop_profile,
+        shop_email,
+        shop_whatsapp,
+        shop_wechat,
+        shop_tiktok,
+        shop_facebook,
+      } = koopUser;
 
       const shop: KoopShop = {
         id: id,
@@ -39,6 +56,11 @@ export async function GET(req: NextRequest) {
         shop_tags: shop_tags,
         shop_desc: shop_desc,
         shop_profile: shop_profile,
+        shop_email: shop_email,
+        shop_whatsapp: shop_whatsapp,
+        shop_wechat: shop_wechat,
+        shop_tiktok: shop_tiktok,
+        shop_facebook: shop_facebook,
       };
 
       koopShops.push(shop);
