@@ -72,7 +72,7 @@ export async function GET(req) {
       const { to_id } = outboxmsg;
 
       const to_user = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", to_id);
-      outbox.push({ ...inboxmsg, to_user: to_user });
+      outbox.push({ ...outboxmsg, to_user: to_user });
     }
 
     const messages = { inbox: inbox, outbox: outbox };

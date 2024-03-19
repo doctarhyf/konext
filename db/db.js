@@ -39,6 +39,12 @@ export async function loadAllItemsWithCondition(tableName, rowName, rowVal) {
     .eq(rowName, rowVal)
     .order("created_at", { ascending: false });
 
+  console.error(
+    `Loading * from ${tableName}, where ${rowName} == ${rowVal}\nres => `,
+    data,
+    error
+  );
+
   if (error) return error;
   return data;
 }
