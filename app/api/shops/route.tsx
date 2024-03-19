@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic";
 type KoopShop = {
   id: number; // Changed Number to number
   created_at: Date;
+  shop_id: number;
   shop_name: string;
   shop_tags: string;
   shop_desc: string;
@@ -54,6 +55,7 @@ export async function GET(req: NextRequest) {
 
       const shop: KoopShop = {
         id: id,
+        shop_id: id,
         created_at: created_at,
         shop_name: shop_name,
         shop_tags: shop_tags,

@@ -22,6 +22,7 @@ type KoopItem = {
   user_display_name: string;
   user_profile: string;
   //shop
+  shop_id: number;
   shop_name: string;
   shop_profile: string;
   shop_desc: string;
@@ -44,6 +45,7 @@ export async function GET(req: NextRequest) {
 
       if (user) {
         const {
+          id,
           display_name,
           profile,
           shop_name,
@@ -63,6 +65,7 @@ export async function GET(req: NextRequest) {
           user_profile: profile,
           //shop info
 
+          shop_id: id,
           shop_name: shop_name,
           shop_profile: shop_profile,
           shop_desc: shop_desc,
