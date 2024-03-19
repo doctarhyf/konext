@@ -9,8 +9,8 @@ export default function Home() {
       <Image src={koop} alt="koop" />
       <div className="text-3xl text-white">Bienvenue chez KOOP</div>
       <div>
-        La facon moderne de mettre en contact les fournisseurs de produits et
-        services et leures clients
+        Connectez-vous avec style : La nouvelle façon tendance de mettre en
+        relation les fournisseurs de produits et services avec leurs clients.
       </div>
       <div>
         <Image src={store} width={180} height={120} alt="Google Play" />
