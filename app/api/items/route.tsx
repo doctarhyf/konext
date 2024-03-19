@@ -25,6 +25,7 @@ type KoopItem = {
   shop_name: string;
   shop_profile: string;
   shop_desc: string;
+  shop_add: string;
   shop_email: string;
   shop_whatsapp: string;
   shop_wechat: string;
@@ -48,6 +49,7 @@ export async function GET(req: NextRequest) {
           shop_name,
           shop_profile,
           shop_desc,
+          shop_add,
           shop_email,
           shop_whatsapp,
           shop_wechat,
@@ -64,6 +66,7 @@ export async function GET(req: NextRequest) {
           shop_name: shop_name,
           shop_profile: shop_profile,
           shop_desc: shop_desc,
+          shop_add: shop_add,
           shop_email: shop_email,
           shop_whatsapp: shop_whatsapp,
           shop_wechat: shop_wechat,
