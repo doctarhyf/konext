@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
           user_profile: profile,
           //shop info
 
-          shop_id: id,
+          shop_id: user_id,
           shop_name: shop_name,
           shop_profile: shop_profile,
           shop_desc: shop_desc,

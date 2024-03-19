@@ -14,6 +14,7 @@ type KoopShop = {
 
   shop_add: string;
 
+  //
   shop_email: string;
   shop_whatsapp: string;
   shop_wechat: string;
@@ -22,17 +23,6 @@ type KoopShop = {
 };
 
 export async function GET(req: NextRequest) {
-  // try {
-  //const url = new URL(req.url);
-  //const id = url.searchParams.get("id");
-
-  /* if (!id) {
-      return NextResponse.json(
-        { error: "ID parameter is missing" },
-        { status: 400 }
-      );
-    } */
-
   const loadedUsers = await SB.loadAllItems("koop_users");
   const koopShops: KoopShop[] = [];
 
