@@ -1,16 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
+import { TABLE_NAMES } from "@/db/supabase";
 
 export const dynamic = "force-dynamic";
 
-type Comment = {
+type User = {
   id: number; // Changed Number to number
   created_at: Date;
-  comment: string; // Changed String to string
-  item_id: number; // Changed Number to number
-  posted_by_id: number; // Changed Number to number
-  posted_by_display_name: string; // Changed String to string
-  posted_by_profile: string; // Changed String to string
+  phone: string;
+  pin: string;
+  full_name: string;
+  dob: string;
+  email: string;
+  ville: string;
+  display_name: string;
+  profile: string;
+  shop_name: string;
+  shop_tags: string;
+  shop_desc: string;
+  shop_add: string;
+  shop_email: string;
+  shop_web: string;
+  shop_profile: string;
+  shop_likes: number;
+  shop_whatsapp: string;
+  shop_wechat: string;
+  shop_tiktok: string;
+  shop_facebook: string;
 };
 
 export async function GET(req: NextRequest) {
@@ -25,16 +41,16 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const loadedComments = await SB.loadAllComments(id);
-    const comments: Comment[] = [];
+    const loadedUser = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", id);
+    /* const comments: User[] = [];
 
-    if (Array.isArray(loadedComments)) {
-      for (const curComment of loadedComments) {
+    if (Array.isArray(loadedUser)) {
+      for (const curComment of loadedUser) {
         const { posted_by_id } = curComment;
         const poster = await SB.loadItem("koop_users", "id", posted_by_id);
 
         if (poster) {
-          const com: Comment = {
+          const com: User = {
             id: curComment.id,
             created_at: curComment.created_at,
             comment: curComment.comment,
@@ -45,11 +61,11 @@ export async function GET(req: NextRequest) {
           };
           comments.push(com);
         }
-      }
-    }
+      } 
+    }*/
 
-    console.log(comments);
-    return NextResponse.json(comments, { status: 200 });
+    console.log(loadedUser);
+    return NextResponse.json(loadedUser, { status: 200 });
   } catch (error) {
     console.error("Error occurred:", error);
     return NextResponse.json(

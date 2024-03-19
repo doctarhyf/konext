@@ -15,10 +15,11 @@ export async function loadItem(tableName, rowName, rowVal) {
   let { data, error } = await supabase
     .from(tableName)
     .select("*")
-    .eq(rowName, rowVal);
+    .eq(rowName, rowVal)
+    .single();
 
   if (error) return error;
-  return data[0];
+  return data;
 }
 
 export async function loadAllItems(tableName, count = 10) {
