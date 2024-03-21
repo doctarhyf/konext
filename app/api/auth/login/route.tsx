@@ -20,10 +20,9 @@ export async function POST(req: NextRequest) {
       ) as unknown)) as User;
 
       if (res && res.id) {
-        return NextResponse.json(
-          { error: true, message: "PIN INCORRECT" },
-          { status: 200 }
-        );
+        return NextResponse.json({ error: "USER_NOT_FOUND" }, { status: 200 });
+      } else {
+        return NextResponse.json({ error: "WRONG_PIN" }, { status: 200 });
       }
     }
 
