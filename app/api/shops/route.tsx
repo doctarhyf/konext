@@ -1,26 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
+import { KoopShop } from "@/db/types";
 
 export const dynamic = "force-dynamic";
-
-type KoopShop = {
-  id: number; // Changed Number to number
-  created_at: Date;
-  shop_id: number;
-  shop_name: string;
-  shop_tags: string;
-  shop_desc: string;
-  shop_profile: string;
-
-  shop_add: string;
-
-  //
-  shop_email: string;
-  shop_whatsapp: string;
-  shop_wechat: string;
-  shop_tiktok: string;
-  shop_facebook: string;
-};
 
 export async function GET(req: NextRequest) {
   const loadedUsers = await SB.loadAllItems("koop_users");

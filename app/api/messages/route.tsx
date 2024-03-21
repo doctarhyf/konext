@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
 import supabase, { TABLE_NAMES } from "@/db/supabase";
+import { Message } from "@/db/types";
 
 export const dynamic = "force-dynamic";
 
-interface Message {
+/* interface Message {
   id: number;
   created_at: Date;
   from_id: number;
   to_id: number;
   message: string;
-}
+} */
 
 export async function GET(req: NextRequest) {
   //: NextRequest) {
