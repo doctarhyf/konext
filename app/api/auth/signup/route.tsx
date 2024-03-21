@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
   const { phone, pin } = creds;
 
   if (creds) {
-    const userData = await SB.loadSingleItemByPhoneAndPin(phone, pin);
+    const userData = await SB.createUser(phone, pin);
 
     console.log("userData => ", userData);
     return NextResponse.json(userData, { status: 200 });
