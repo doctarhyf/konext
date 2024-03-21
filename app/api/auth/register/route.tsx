@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
   const creds = await req.json();
   const { phone, pin } = creds;
 
+  
   if (creds) {
     const userData = await SB.createUser(phone, pin);
 

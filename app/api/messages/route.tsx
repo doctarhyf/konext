@@ -4,15 +4,15 @@ import supabase, { TABLE_NAMES } from "@/db/supabase";
 
 export const dynamic = "force-dynamic";
 
-/* interface Message {
+interface Message {
   id: number;
   created_at: Date;
   from_id: number;
   to_id: number;
   message: string;
-} */
+}
 
-export async function GET(req) {
+export async function GET(req: NextRequest) {
   //: NextRequest) {
   try {
     const url = new URL(req.url);
@@ -25,11 +25,11 @@ export async function GET(req) {
       );
     }
 
-    const inboxMessages = await SB.loadAllItemsWithCondition(
+    const inboxMessages = (await SB.loadAllItemsWithCondition(
       TABLE_NAMES.KOOP_MSG_INBOX,
       "to_id",
       parseInt(id)
-    );
+    )) as Message[];
 
     const inbox = [];
 
@@ -52,11 +52,11 @@ export async function GET(req) {
       inbox.push({ ...inboxmsg, from_user: from_user });
     }
 
-    const outboxMessages = await SB.loadAllItemsWithCondition(
+    const outboxMessages = (await SB.loadAllItemsWithCondition(
       TABLE_NAMES.KOOP_MSG_OUTBOX,
       "from_id",
       parseInt(id)
-    );
+    )) as Message[];
 
     const outbox = [];
 

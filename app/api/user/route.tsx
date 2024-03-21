@@ -41,7 +41,11 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const loadedUser = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", id);
+    const loadedUser = (await SB.loadItem(
+      TABLE_NAMES.KOOP_USERS,
+      "id",
+      id
+    )) as User;
     /* const comments: User[] = [];
 
     if (Array.isArray(loadedUser)) {

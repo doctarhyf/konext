@@ -82,7 +82,9 @@ export async function createUser(phone, pin) {
     // Perform the insertion
     const { data, error } = await supabase
       .from(TABLE_NAMES.KOOP_USERS)
-      .insert([{ phone: phone, pin: pin }]);
+      .insert([{ phone: phone, pin: pin }])
+      .select()
+      .single();
 
     if (error) {
       throw error;
