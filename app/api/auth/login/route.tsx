@@ -13,11 +13,12 @@ export async function POST(req: NextRequest) {
     const userData = await SB.loadSingleItemByPhoneAndPin(phone, pin);
 
     if (userData === null) {
-      const res = (await (SB.loadAllItemsWithCondition(
+      const res = (await (SB.loadItem(
         TABLE_NAMES.KOOP_USERS,
         "phone",
         phone
       ) as unknown)) as User;
+
       if (res && res.id) {
         return NextResponse.json(
           { error: true, message: "PIN INCORRECT" },
