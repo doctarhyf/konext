@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       if (res && res.id) {
         return NextResponse.json(
           { error: true, message: "PIN INCORRECT" },
-          { status: 500 }
+          { status: 200 }
         );
       }
     }
