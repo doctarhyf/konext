@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
-import { TABLE_NAMES } from "@/db/supabase";
+
 import { User, UserDataUpdate } from "@/db/types";
 import { error } from "console";
 
