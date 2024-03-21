@@ -104,12 +104,12 @@ export async function createUser(phone, pin) {
   }
 }
 
-export async function updateUserData(user_id, data_name, data_new_value) {
+export async function updateUserData(user_id, date_key, new_value) {
   try {
     // Perform the update
     const { data, error } = await supabase
-      .from("koop_users")
-      .update({ [data_name]: data_new_value })
+      .from(TABLE_NAMES.KOOP_USERS)
+      .update({ [date_key]: new_value })
       .eq("id", user_id)
       .select()
       .single();
