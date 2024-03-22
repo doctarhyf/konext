@@ -1,0 +1,17 @@
+// Serverless function to increment views count
+async function incrementViews(itemId) {
+    const { data, error } = await supabase
+        .from('items')
+        .update({ views: supabase.sql('views + 1') })
+        .match({ id: itemId });
+
+    if (error) {
+        console.error('Error incrementing views:', error.message);
+    }
+}
+
+// Intercept read operations and increment views count
+async function handleReadOperation(itemId) {
+    await incrementViews(itemId);
+    // Perform your regular read operation here
+}
