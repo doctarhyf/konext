@@ -141,6 +141,25 @@ export async function insertItem(tableName, data) {
   return res.data;
 }
 
+export async function removeItem(tableName, itemdata) {
+  //const { data, error } = await supabase.from(tableName).delete().eq(itemdata);
+  let query = supabase.from(tableName).delete();
+
+  Object.keys(itemdata).forEach((key) => {
+    query = query.eq(key, itemdata[key]);
+  });
+
+  const { data, error } = await query.single();
+
+  if (error) {
+    console.error("Error deleting item:", error.message);
+    return error;
+  }
+
+  console.log("Item deleted successfully:", data);
+  return data;
+}
+
 export async function updateItem(tableName, id, updateData) {
   const { data, error } = await supabase
     .from(tableName)
@@ -156,4 +175,23 @@ export async function updateItem(tableName, id, updateData) {
     console.warn("Update successful! => ", data);
     return data;
   }
+}
+
+export async function loadItemWithCondition(tableName, conditionObject) {
+  let query = supabase.from(tableName).select("*");
+
+  // Iterate over the keys of conditionObject and chain .eq() conditions
+  Object.keys(conditionObject).forEach((key) => {
+    query = query.eq(key, conditionObject[key]);
+  });
+
+  const { data, error } = await query.single();
+
+  if (error) {
+    console.error("Error fetching data:", error.message);
+    return error;
+  }
+
+  console.log("data => ", data);
+  return data;
 }
