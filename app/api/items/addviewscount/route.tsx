@@ -45,24 +45,6 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json(res, { status: 200 });
     }
-
-    /* const userData = await SB.loadSingleItemByPhoneAndPin(phone, pin);
-
-    if (userData === null) {
-      const res = (await (SB.loadItem(
-        TABLE_NAMES.KOOP_USERS,
-        "phone",
-        phone
-      ) as unknown)) as User;
-
-      if (res && res.id) {
-        return NextResponse.json({ error: "WRONG_PIN" }, { status: 200 });
-      } else {
-        return NextResponse.json({ error: "USER_NOT_FOUND" }, { status: 200 });
-      }
-    }
-
-    return NextResponse.json(userData, { status: 200 }); */
   }
 
   return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
