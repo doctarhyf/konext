@@ -27,11 +27,23 @@ export async function POST(req: NextRequest) {
     } else {
       const { id, views, item_id, user_id } = data;
       const newdata = { item_id: item_id, user_id: user_id, views: views + 1 };
-      const res = await SB.updateItem(
+      let res = await SB.updateItem(
         TABLE_NAMES.KOOP_ITEM_VIEWS_COUNT,
         id,
         newdata
       );
+
+      if (res && res.id) {
+        const item = await SB.loadItem(TABLE_NAMES.KOOP_ITEMS, "id", item_id);
+
+        if (item && item.id) {
+          const { views } = item;
+          res = await SB.updateItem(TABLE_NAMES.KOOP_ITEMS, item_id, {
+            views: newdata.views,
+          });
+        }
+      }
+
       return NextResponse.json(res, { status: 200 });
     }
 
