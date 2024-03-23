@@ -1,4 +1,5 @@
 import supabase, { TABLE_NAMES } from "@/db/supabase";
+import { error } from "console";
 
 export async function loadAllComments(item_id) {
   let { data, error } = await supabase
@@ -129,5 +130,30 @@ export async function updateUserData(user_id, date_key, new_value) {
   } catch (error) {
     console.error("Error updating email:", error.message);
     return null;
+  }
+}
+
+export async function insertItem(tableName, data) {
+  const res = await supabase.from(tableName).insert([data]).select();
+
+  if (res.error) return error;
+
+  return res.data;
+}
+
+export async function updateItem(tableName, id, updateData) {
+  const { data, error } = await supabase
+    .from(tableName)
+    .update(updateData)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error updating data:", error.message);
+    return error;
+  } else {
+    console.warn("Update successful! => ", data);
+    return data;
   }
 }

@@ -5,6 +5,8 @@ import { User } from "@/db/types";
 
 export const dynamic = "force-dynamic";
 
+///api/items/addviewscount
+
 export async function POST(req: NextRequest) {
   const creds = await req.json();
   const { phone, pin } = creds;
