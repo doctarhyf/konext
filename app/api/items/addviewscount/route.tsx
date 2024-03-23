@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
     const { data, error } = await supabase
       .from(TABLE_NAMES.KOOP_ITEM_VIEWS_COUNT)
       .select("*")
-      .eq("user_id", user_id)
       .eq("item_id", item_id)
       .single();
 
