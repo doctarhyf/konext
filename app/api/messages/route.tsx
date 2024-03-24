@@ -17,33 +17,23 @@ export async function GET(req: NextRequest) {
   //: NextRequest) {
   try {
     const url = new URL(req.url);
-    const id = url.searchParams.get("id");
+    const user_id = url.searchParams.get("user_id");
 
-    if (!id) {
+    if (!user_id) {
       return NextResponse.json(
-        { error: "ID parameter is missing" },
+        { error: true, message: "USER ID parameter is missing" },
         { status: 400 }
       );
     }
 
-    const inboxMessages = (await SB.loadAllItemsWithCondition(
-      TABLE_NAMES.KOOP_MSG_INBOX,
-      "to_id",
-      parseInt(id)
+    const messagesData = (await SB.loadMessages(
+      parseInt(user_id)
     )) as Message[];
 
-    const inbox = [];
+    /* const messages = [];
 
-    for (const inboxmsg of inboxMessages) {
-      /*
-      id: 6,
-  created_at: '2024-03-19T18:15:27.559505+00:00',
-  message: '',
-  from_id: 47,
-  to_id: 48,
-  read: false
-      */
-      const { from_id } = inboxmsg;
+    for (const msg of messagesData) {
+      const { from_id, to_id } = msg;
 
       const from_user = await SB.loadItem(
         TABLE_NAMES.KOOP_USERS,
@@ -52,31 +42,22 @@ export async function GET(req: NextRequest) {
       );
 
       if (from_user.code === undefined) {
-        inbox.push({ ...inboxmsg, from_user: from_user });
+        messages.push({ ...msg, from_user: from_user });
       }
-    }
 
-    const outboxMessages = (await SB.loadAllItemsWithCondition(
-      TABLE_NAMES.KOOP_MSG_OUTBOX,
-      "from_id",
-      parseInt(id)
-    )) as Message[];
+       const to_user = await SB.loadItem(
+         TABLE_NAMES.KOOP_USERS,
+         "id",
+         from_id
+       );
 
-    const outbox = [];
+       if (to_user.code === undefined) {
+         messages.push({ ...msg, to_user: from_user });
+       }
 
-    for (const outboxmsg of outboxMessages) {
-      const { to_id } = outboxmsg;
+    } */
 
-      const to_user = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", to_id);
-      if (to_user.code === undefined) {
-        outbox.push({ ...outboxmsg, to_user: to_user });
-      }
-    }
-
-    const messages = { inbox: inbox, outbox: outbox };
-
-    // console.log(Object.keys(messages.outbox[0]));
-    return NextResponse.json(messages, { status: 200 });
+    return NextResponse.json(messagesData, { status: 200 });
   } catch (error) {
     console.error("Error occurred:", error);
     return NextResponse.json(

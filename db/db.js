@@ -50,6 +50,24 @@ export async function loadAllItemsWithCondition(tableName, rowName, rowVal) {
   return data;
 }
 
+export async function loadMessages(user_id) {
+  let { data, error } = await supabase
+    .from(TABLE_NAMES.KOOP_MESSAGES)
+    .select("*")
+    .or("from_id", "=", parseInt(user_id))
+    .or("to_id", "=", parseInt(user_id))
+    .order("created_at", { ascending: false });
+
+  console.error(
+    `Loading * from ${TABLE_NAMES.KOOP_MESSAGES}, user_id = ${user_id}\nres => `,
+    data,
+    error
+  );
+
+  if (error) return error;
+  return data;
+}
+
 // Define a function to load a single item based on phone number and pin
 export async function loadSingleItemByPhoneAndPin(phone, pin) {
   try {
@@ -75,6 +93,33 @@ export async function loadSingleItemByPhoneAndPin(phone, pin) {
   } catch (error) {
     console.error("Error loading item:", error.message);
     return null;
+  }
+}
+
+export async function sendMessage(message) {
+  try {
+    // Perform the insertion
+    const { data, error } = await supabase
+      .from(TABLE_NAMES.KOOP_MESSAGES)
+      .insert([message])
+      .select()
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    // If data is returned, insertion was successful
+    if (data) {
+      console.log("Data inserted successfully:", data);
+      return data;
+    } else {
+      console.log("Data insertion failed.");
+      return { error: true, ...error };
+    }
+  } catch (error) {
+    console.error("Error inserting data:", error.message);
+    return { error: true, ...error };
   }
 }
 

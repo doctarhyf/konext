@@ -9,6 +9,7 @@ export const TABLE_NAMES = {
   KOOP_MSG_INBOX: "koop_messages_in",
   KOOP_ITEM_VIEWS_COUNT: "koop_items_views_count",
   KOOP_ITEMS_LIKES: "koop_items_likes",
+  KOOP_MESSAGES: "koop_messages",
 };
 
 // Initialize Supabase client
