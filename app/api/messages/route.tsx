@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
         from_id
       );
 
-      if (from_user.code !== undefined) {
+      if (from_user.code === undefined) {
         inbox.push({ ...inboxmsg, from_user: from_user });
       }
     }
@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
       const { to_id } = outboxmsg;
 
       const to_user = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", to_id);
-      if (to_user.code !== undefined) {
+      if (to_user.code === undefined) {
         outbox.push({ ...outboxmsg, to_user: to_user });
       }
     }
