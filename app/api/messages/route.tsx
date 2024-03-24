@@ -18,16 +18,24 @@ export async function GET(req: NextRequest) {
   try {
     const url = new URL(req.url);
     const user_id = url.searchParams.get("user_id");
+    const page = url.searchParams.get("page");
+    const count = url.searchParams.get("count");
 
-    if (!user_id) {
+    if (!user_id || !page || !count) {
       return NextResponse.json(
-        { error: true, message: "USER ID parameter is missing" },
+        {
+          error: true,
+          message:
+            "Parameters are missing, make sure to provide user_id, page and count",
+        },
         { status: 400 }
       );
     }
 
     const messagesData = (await SB.loadMessages(
-      parseInt(user_id)
+      parseInt(user_id),
+      parseInt(page),
+      parseInt(count)
     )) as Message[];
 
     /* const messages = [];

@@ -50,19 +50,22 @@ export async function loadAllItemsWithCondition(tableName, rowName, rowVal) {
   return data;
 }
 
-export async function loadMessages(user_id) {
+export async function loadMessages(user_id, page = 1, count = 20) {
+  if ((page = 0)) page = 1;
+
+  const range_from = count * page - count;
+  const range_to = count * page;
+
   let { data, error } = await supabase
     .from(TABLE_NAMES.KOOP_MESSAGES)
     .select("*")
-    //.in("from_id", [user_id])
-    //.in("to_id", [user_id])
-    //.or("from_id", "=", parseInt(user_id))
-    //.or("to_id", "=", parseInt(user_id))
+    .range(range_from, range_to) // count exampl 20
     .order("created_at", { ascending: false });
-
   console.log(
-    ` Loading messages from ${TABLE_NAMES.KOOP_MESSAGES} where from_id = ${user_id} or to_id = ${user_id} `
+    ` Loading messages from ${TABLE_NAMES.KOOP_MESSAGES} where from_id = ${user_id} or to_id = ${user_id}, range_from = ${range_from}, range_to = ${range_to} `
   );
+
+  data = data.filter((m, i) => m.from_id === user_id || m.to_id === user_id);
 
   if (error) return error;
   return data;
