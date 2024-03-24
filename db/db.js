@@ -19,6 +19,8 @@ export async function loadItem(tableName, rowName, rowVal) {
     .eq(rowName, rowVal)
     .single();
 
+  console.error(`Load from ${tableName} where ${rowName} = ${rowVal}`);
+
   if (error) return error;
   return data;
 }
