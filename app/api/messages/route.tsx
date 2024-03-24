@@ -38,34 +38,18 @@ export async function GET(req: NextRequest) {
       parseInt(count)
     )) as Message[];
 
-    /* const messages = [];
-
-    for (const msg of messagesData) {
-      const { from_id, to_id } = msg;
-
-      const from_user = await SB.loadItem(
-        TABLE_NAMES.KOOP_USERS,
-        "id",
-        from_id
-      );
-
-      if (from_user.code === undefined) {
-        messages.push({ ...msg, from_user: from_user });
+    const groupedMessages = messagesData.reduce((acc: any, obj) => {
+      const contact_id =
+        obj.from_id === parseInt(user_id) ? obj.to_id : obj.from_id;
+      if (!acc[contact_id]) {
+        acc[contact_id] = [];
       }
+      const type = obj.from_id === parseInt(user_id) ? "out" : "in";
+      acc[contact_id].push({ ...obj, type: type });
+      return acc;
+    }, {});
 
-       const to_user = await SB.loadItem(
-         TABLE_NAMES.KOOP_USERS,
-         "id",
-         from_id
-       );
-
-       if (to_user.code === undefined) {
-         messages.push({ ...msg, to_user: from_user });
-       }
-
-    } */
-
-    return NextResponse.json(messagesData, { status: 200 });
+    return NextResponse.json(groupedMessages, { status: 200 });
   } catch (error) {
     console.error("Error occurred:", error);
     return NextResponse.json(

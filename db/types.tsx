@@ -29,6 +29,7 @@ export interface Message {
   from_id: number;
   to_id: number;
   message: string;
+  type: "in" | "out";
 }
 
 export type KoopShop = {
