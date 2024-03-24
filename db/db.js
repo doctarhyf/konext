@@ -54,14 +54,14 @@ export async function loadMessages(user_id) {
   let { data, error } = await supabase
     .from(TABLE_NAMES.KOOP_MESSAGES)
     .select("*")
-    .or("from_id", "=", parseInt(user_id))
-    .or("to_id", "=", parseInt(user_id))
+    //.in("from_id", [user_id])
+    //.in("to_id", [user_id])
+    //.or("from_id", "=", parseInt(user_id))
+    //.or("to_id", "=", parseInt(user_id))
     .order("created_at", { ascending: false });
 
-  console.error(
-    `Loading * from ${TABLE_NAMES.KOOP_MESSAGES}, user_id = ${user_id}\nres => `,
-    data,
-    error
+  console.log(
+    ` Loading messages from ${TABLE_NAMES.KOOP_MESSAGES} where from_id = ${user_id} or to_id = ${user_id} `
   );
 
   if (error) return error;
