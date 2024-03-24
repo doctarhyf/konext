@@ -51,7 +51,9 @@ export async function loadAllItemsWithCondition(tableName, rowName, rowVal) {
 }
 
 export async function loadMessages(user_id, page = 1, count = 20) {
-  if ((page = 0)) page = 1;
+  // http://localhost:3000/api/messages/?user_id=47&page=0&count=10
+
+  if (0 === parseInt(page)) page = 1;
 
   const range_from = count * page - count;
   const range_to = count * page;
