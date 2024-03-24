@@ -50,7 +50,10 @@ export async function GET(req: NextRequest) {
         "id",
         from_id
       );
-      inbox.push({ ...inboxmsg, from_user: from_user });
+
+      if (from_user.code !== undefined) {
+        inbox.push({ ...inboxmsg, from_user: from_user });
+      }
     }
 
     const outboxMessages = (await SB.loadAllItemsWithCondition(
@@ -62,18 +65,12 @@ export async function GET(req: NextRequest) {
     const outbox = [];
 
     for (const outboxmsg of outboxMessages) {
-      /*
-      id: 6,
-  created_at: '2024-03-19T18:15:27.559505+00:00',
-  message: '',
-  from_id: 47,
-  to_id: 48,
-  read: false
-      */
       const { to_id } = outboxmsg;
 
       const to_user = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", to_id);
-      outbox.push({ ...outboxmsg, to_user: to_user });
+      if (to_user.code !== undefined) {
+        outbox.push({ ...outboxmsg, to_user: to_user });
+      }
     }
 
     const messages = { inbox: inbox, outbox: outbox };
