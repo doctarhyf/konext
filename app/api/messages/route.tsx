@@ -45,6 +45,7 @@ export async function GET(req: NextRequest) {
     messagesData.forEach((msg, i) => {
       const contact_id =
         parseInt(user_id) === msg.from_id ? msg.to_id : msg.from_id;
+      const me = parseInt(user_id) === msg.from_id ? true : false;
 
       if (!contacts_ids.includes(contact_id)) {
         const p = SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", contact_id);
@@ -54,7 +55,7 @@ export async function GET(req: NextRequest) {
       if (!messagesGroupedByID[contact_id])
         messagesGroupedByID[contact_id] = [];
 
-      messagesGroupedByID[contact_id].push(msg);
+      messagesGroupedByID[contact_id].push({ ...msg, me: me });
     });
 
     const contacts = await Promise.all(contactPromises);
