@@ -64,7 +64,7 @@ export async function loadMessages(user_id, page = 1, count = 20) {
     .from(TABLE_NAMES.KOOP_MESSAGES)
     .select("*")
     .range(range_from, range_to) // count exampl 20
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: true });
   console.log(
     ` Loading messages from ${TABLE_NAMES.KOOP_MESSAGES} where from_id = ${user_id} or to_id = ${user_id}, range_from = ${range_from}, range_to = ${range_to} `
   );
