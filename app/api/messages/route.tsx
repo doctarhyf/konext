@@ -38,37 +38,38 @@ export async function GET(req: NextRequest) {
       parseInt(count)
     )) as Message[];
 
-    const groupedMessages = await messagesData.reduce(async (acc: any, obj) => {
+    const messagesGroupedByID: any = {};
+    const contacts_ids: number[] = [];
+    const contactPromises: any[] = [];
+
+    messagesData.forEach((msg, i) => {
       const contact_id =
-        obj.from_id === parseInt(user_id) ? obj.to_id : obj.from_id;
-      if (!acc[contact_id]) {
-        acc[contact_id] = [];
+        parseInt(user_id) === msg.from_id ? msg.to_id : msg.from_id;
+
+      if (!contacts_ids.includes(contact_id)) {
+        const p = SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", contact_id);
+        contacts_ids.push(contact_id);
+        contactPromises.push(p);
       }
-      const contact_data = await SB.loadItem(
-        TABLE_NAMES.KOOP_USERS,
-        "id",
-        contact_id
-      );
+      if (!messagesGroupedByID[contact_id])
+        messagesGroupedByID[contact_id] = [];
 
-      const type = obj.from_id === parseInt(user_id) ? "out" : "in";
-      const message_obj = { ...obj, type: type, contact_data: contact_data };
+      messagesGroupedByID[contact_id].push(msg);
+    });
 
-      console.error(message_obj);
+    const contacts = await Promise.all(contactPromises);
 
-      if (contact_data.code === undefined) {
-        acc[contact_id].push(message_obj);
-      } else {
-        console.error(
-          `Skipping adding message cuz user with id : ${contact_id} could not be found!`
-        );
-      }
+    const finalMessages: any = {};
+    Object.entries(messagesGroupedByID).forEach((messageGroup, groupIndex) => {
+      const groupKey: any = messageGroup[0];
+      const messagesArray: any = messageGroup[1];
 
-      return acc;
-    }, {});
+      const current_contact = contacts.filter((it, i) => it.id == groupKey)[0];
+      const finalMessageGroup = [current_contact, ...messagesArray];
+      finalMessages[groupKey] = finalMessageGroup;
+    });
 
-    console.error("groupedMessages => ", groupedMessages);
-
-    return NextResponse.json(groupedMessages, { status: 200 });
+    return NextResponse.json(finalMessages, { status: 200 });
   } catch (error) {
     console.error("Error occurred:", error);
     return NextResponse.json(
