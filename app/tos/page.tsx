@@ -6,24 +6,24 @@ import store from "../assets/stores.png";
 export default function Home() {
   const data = [
     {
-      title: "Des Trouvailles Uniques :",
-      cont: "Sur KOOP, découvre des trésors rares et uniques que tu ne trouveras nulle part ailleurs! De l'objet vintage au produit de luxe, notre app te connecte avec des vendeurs de confiance.",
+      title: `Des Trouvailles Uniques :`,
+      cont: `Sur KOOP, découvre des trésors rares et uniques que tu ne trouveras nulle part ailleurs! De l&apos;objet vintage au produit de luxe, notre app te connecte avec des vendeurs de confiance.`,
     },
     {
-      title: "Connexion Vendeurs-Acheteurs :",
-      cont: "Grâce à KOOP, fais partie d'une communauté où vendeurs et acheteurs se rencontrent. Que tu sois à la recherche de quelque chose de spécial ou que tu veuilles vendre ton propre trésor, KOOP est là pour toi.",
+      title: `Connexion Vendeurs-Acheteurs :`,
+      cont: `Grâce à KOOP, fais partie d&apos;une communauté où vendeurs et acheteurs se rencontrent. Que tu sois à la recherche de quelque chose de spécial ou que tu veuilles vendre ton propre trésor, KOOP est là pour toi.`,
     },
     {
-      title: "Transfert d'Argent Facile :",
-      cont: "Avec KOOP, envoyer de l'argent est aussi simple qu'un clic. Transfère de l'argent directement depuis ta carte SIM mobile en toute sécurité. Achète et vends en toute confiance, sans tracas.",
+      title: `Transfert d&apos;Argent Facile :`,
+      cont: `Avec KOOP, envoyer de l&apos;argent est aussi simple qu&apos;un clic. Transfère de l&apos;argent directement depuis ta carte SIM mobile en toute sécurité. Achète et vends en toute confiance, sans tracas.`,
     },
     {
-      title: "Suivi GPS pour Véhicules :",
-      cont: "Toujours savoir où se trouve ton bolide? KOOP t'offre le suivi GPS pour tes véhicules. Que ce soit pour des livraisons ou simplement pour garder un œil sur tes biens, KOOP te facilite la vie.",
+      title: `Suivi GPS pour Véhicules :`,
+      cont: `Toujours savoir où se trouve ton bolide? KOOP t&apos;offre le suivi GPS pour tes véhicules. Que ce soit pour des livraisons ou simplement pour garder un œil sur tes biens, KOOP te facilite la vie.`,
     },
     {
-      title: "Partage de Liens et Gains :",
-      cont: "Sur KOOP, le partage peut rapporter gros! Partage des liens avec tes amis et ta famille et gagne des récompenses. Plus tu partages, plus tu gagnes. C'est simple, non?",
+      title: `Partage de Liens et Gains :`,
+      cont: `Sur KOOP, le partage peut rapporter gros! Partage des liens avec tes amis et ta famille et gagne des récompenses. Plus tu partages, plus tu gagnes. C&apos;est simple, non?`,
     },
   ];
 
