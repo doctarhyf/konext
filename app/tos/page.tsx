@@ -42,7 +42,9 @@ export default function Home() {
 
       {data.map((dt, i) => (
         <>
-          <h2>{`${i + 1}. ${dt.title}`}</h2>
+          <h2>
+            {i + 1}. {dt.title}
+          </h2>
 
           <p className=" mb-4 ">{dt.cont}</p>
         </>
