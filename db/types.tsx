@@ -56,3 +56,13 @@ export interface UserDataUpdate {
   data_key: string;
   new_value: string;
 }
+
+export interface ServiceRequest {
+  id: number;
+  created_at: Date;
+  user_id: number;
+  label: string;
+  desc: string | null;
+  tags: string[] | null;
+  images: string[] | null;
+}

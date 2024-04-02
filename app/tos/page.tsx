@@ -29,7 +29,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col justify-between p-4 bg-sky-500">
-      <Image src={koop} alt="koop" />
+      <Image src={koop} alt="koop" width={30} height={30} />
       <div className="text-3xl text-white">Bienvenue chez KOOP</div>
       <h1>Conditions Générales de KOOP</h1>
       <p>Bonjour KOOPer,</p>
