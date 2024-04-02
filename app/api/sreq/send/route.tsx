@@ -5,6 +5,7 @@ import { ServiceRequest } from "@/db/types";
 
 export const dynamic = "force-dynamic";
 
+//api route :POST /sreq/send
 export async function POST(req: NextRequest) {
   const sreqData: ServiceRequest = (await req.json()) as ServiceRequest;
   const { user_id, label, desc, images } = sreqData;

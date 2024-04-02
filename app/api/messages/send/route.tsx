@@ -4,6 +4,8 @@ import { TABLE_NAMES } from "@/db/supabase";
 
 export const dynamic = "force-dynamic";
 
+// api route : GET /sreq?user_id
+
 export async function POST(req: NextRequest) {
   const message = await req.json();
   const { from_id, to_id, content } = message;
