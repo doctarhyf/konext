@@ -65,4 +65,5 @@ export interface ServiceRequest {
   desc: string | null;
   tags: string[] | null;
   images: string[] | null;
+  user_data: User | null;
 }
