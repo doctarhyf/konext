@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
 import supabase, { TABLE_NAMES } from "@/db/supabase";
-import { ServiceRequest } from "@/db/types";
+import { ServiceRequest, User } from "@/db/types";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   const params = new URL(req.url).searchParams;
   const user_id = params.get("user_id");
-  let sreqsArray: ServiceRequest[] = [];
+  let serviceRequestArray: ServiceRequest[] = [];
 
-  console.error("user id => ", user_id);
+  //console.error("user id => ", user_id);
 
   try {
     let promise = SB.loadAllItems(TABLE_NAMES.KOOP_SERVICE_REQUEST);
@@ -25,6 +25,34 @@ export async function GET(req: NextRequest) {
 
     const sreqs = (await promise) as ServiceRequest[];
 
+    const users_ids: number[] = [];
+
+    const readingAll = user_id === null;
+    const users_by_id: Record<number, User> = {};
+    const final_items: ServiceRequest[] = [];
+    if (readingAll) {
+      sreqs.forEach((sr, i) => {
+        const { user_id } = sr;
+        if (!users_ids.includes(user_id)) users_ids.push(user_id);
+      });
+
+      const usersPromises: any = [];
+      if (users_ids.length > 0) {
+        users_ids.forEach((uid, i) => {
+          usersPromises.push(SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", uid));
+        });
+      }
+
+      const users = await Promise.all(usersPromises);
+
+      users.forEach((user, i) => {
+        users_by_id[user.id] = user;
+      });
+
+      sreqs.map((sr, i) => (sr.user_data = users_by_id[sr.user_id]));
+    }
+
+    /*
     if ((user_id === null || user_id === undefined) && sreqs) {
       const users_ids: number[] = [];
 
@@ -55,13 +83,13 @@ export async function GET(req: NextRequest) {
           ...sr,
           user_data: users_by_id[sr.user_id],
         };
-        sreqsArray.push(fsreq);
+        serviceRequestArray.push(fsreq);
       });
-    }
+    } */
 
-    //sreqsArray = [...sreqs];
+    // console.error(`ServReq => `, serviceRequestArray);
 
-    return NextResponse.json(sreqsArray, { status: 200 });
+    return NextResponse.json(sreqs, { status: 200 });
   } catch (e) {
     NextResponse.json(
       { error: true, message: "Internal server error : " + JSON.stringify(e) },
