@@ -247,3 +247,14 @@ export async function loadItemWithCondition(tableName, conditionObject) {
   console.log("data => ", data);
   return data;
 }
+
+export async function deleteItem(tableName, rowName, rowVal) {
+  let r;
+  if (rowName && rowVal) {
+    r = supabase.from(tableName).delete().eq(rowName, rowVal);
+  } else {
+    r = supabase.from(tableName).delete().neq("id", -9999);
+  }
+
+  return await r;
+}

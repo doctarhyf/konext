@@ -5,6 +5,7 @@ export const TABLE_NAMES = {
   KOOP_SHOPS: "koop_shops",
   KOOP_ITEMS: "koop_items",
   KOOP_COMMENTS: "koop_comments",
+  KOOP_CONTACT_US: "koop_contact_us",
   KOOP_MSG_OUTBOX: "koop_messages_out",
   KOOP_MSG_INBOX: "koop_messages_in",
   KOOP_ITEM_VIEWS_COUNT: "koop_items_views_count",
