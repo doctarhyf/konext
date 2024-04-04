@@ -1,17 +1,9 @@
-// Serverless function to increment views count
-async function incrementViews(itemId) {
-    const { data, error } = await supabase
-        .from('items')
-        .update({ views: supabase.sql('views + 1') })
-        .match({ id: itemId });
-
-    if (error) {
-        console.error('Error incrementing views:', error.message);
-    }
-}
-
-// Intercept read operations and increment views count
-async function handleReadOperation(itemId) {
-    await incrementViews(itemId);
-    // Perform your regular read operation here
-}
+ {
+      appId: 20602,
+      appToken: "b4XsCQJJ9vzPICDZTpbPuy",
+      title: "Push title here as a string",
+      body: "Push message here as a string",
+      dateSent: "4-4-2024 8:48PM",
+      pushData: { yourProperty: "yourPropertyValue" },
+      bigPictureURL: Big picture URL as a string
+  }
