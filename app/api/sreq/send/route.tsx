@@ -13,15 +13,20 @@ export async function POST(req: NextRequest) {
   console.log("Sendin serv req data => ", sreqData);
 
   if (sreqData && label && label.length > 0) {
-    const res = await SB.insertItem(TABLE_NAMES.KOOP_SERVICE_REQUEST, sreqData);
+    const res = (await SB.insertItem(
+      TABLE_NAMES.KOOP_SERVICE_REQUEST,
+      sreqData
+    )) as ServiceRequest[];
 
     console.log("service req save result => ", res);
-    return NextResponse.json(res, { status: 200 });
+    return NextResponse.json(res[0], { status: 200 });
   } else {
     return NextResponse.json(
       {
         error: true,
-        message: "Internal Server Error, Service Request Data not sent",
+        message: `Internal Server Error, Service Request Data not sent. ${JSON.stringify(
+          sreqData
+        )}`,
       },
       { status: 500 }
     );
