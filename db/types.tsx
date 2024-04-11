@@ -66,4 +66,5 @@ export interface ServiceRequest {
   tags: string[] | null;
   images: string[] | null;
   user_data: User | null;
+  timeAgo: string | null;
 }

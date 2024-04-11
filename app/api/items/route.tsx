@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
+import { timeAgo } from "@/app/utils/funcs";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +41,8 @@ export async function GET(req: NextRequest) {
 
   if (Array.isArray(loadedKoopItems)) {
     for (const koopItem of loadedKoopItems) {
+      koopItem.timeAgo = timeAgo(new Date(koopItem.created_at));
+      //timeA new Date(koopItem) new Date().getTime();
       const { user_id } = koopItem;
       const user = await SB.loadItem("koop_users", "id", user_id);
 
@@ -82,12 +85,5 @@ export async function GET(req: NextRequest) {
 
     console.log(koopItems);
     return NextResponse.json(koopItems, { status: 200 });
-    /* } catch (error) {
-    console.error("Error occurred:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
-  } */
   }
 }

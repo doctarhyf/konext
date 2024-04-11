@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
 import supabase, { TABLE_NAMES } from "@/db/supabase";
 import { ServiceRequest, User } from "@/db/types";
+import { timeAgo } from "@/app/utils/funcs";
 
 export const dynamic = "force-dynamic";
 
@@ -54,6 +55,7 @@ export async function GET(req: NextRequest) {
       const user_data = users_by_id[sr.user_id];
 
       if (user_data) {
+        sr.timeAgo = timeAgo(new Date(sr.created_at));
         finalSReqsArray.push({ ...sr, user_data: user_data });
       }
     });
