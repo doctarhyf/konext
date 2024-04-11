@@ -24,7 +24,11 @@ export async function GET(req: NextRequest) {
   console.log(`Comments loaded : \n ${comments}`);
 
   if (comments.length > 0) {
-    comments.forEach((cmt, i) => posted_by_ids.push(cmt.posted_by_id));
+    comments.forEach((cmt, i) => {
+      if (!posted_by_ids.includes(cmt.posted_by_id)) {
+        posted_by_ids.push(cmt.posted_by_id);
+      }
+    });
 
     const posted_by_promises: Promise<User>[] = [];
     posted_by_ids.forEach((id, i) =>
