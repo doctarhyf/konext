@@ -186,11 +186,12 @@ export async function updateUserData(user_id, date_key, new_value) {
 }
 
 export async function insertItem(tableName, data) {
-  const res = await supabase.from(tableName).insert([data]).select();
-
-  if (res.error) return error;
-
-  return res.data;
+  try {
+    const res = await supabase.from(tableName).insert([data]).select();
+    return res.error ? { error: true, ...res.error } : res.data;
+  } catch (e) {
+    return e;
+  }
 }
 
 export async function removeItem(tableName, itemdata) {
