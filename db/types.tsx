@@ -32,6 +32,16 @@ export interface Message {
   type: "in" | "out";
 }
 
+export interface Comment {
+  id: number;
+  created_at: Date;
+  item_id: number;
+  posted_by_id: number;
+  comment: string;
+  validate: "true" | "false";
+  item_type: string;
+}
+
 export type KoopShop = {
   id: number; // Changed Number to number
   created_at: Date;

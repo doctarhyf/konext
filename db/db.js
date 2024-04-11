@@ -25,6 +25,18 @@ export async function loadItem(tableName, rowName, rowVal) {
   return data;
 }
 
+export async function loadItemComments(item_id, item_type) {
+  let { data, error } = await supabase
+    .from(TABLE_NAMES.KOOP_COMMENTS)
+    .select("*")
+    .eq("item_id", item_id)
+    .eq("item_type", item_type)
+    .order("created_at", { ascending: false });
+
+  if (error) return error;
+  return data;
+}
+
 export async function loadAllItems(tableName, count = 10) {
   let { data, error } = await supabase
     .from(tableName)
