@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
       sreqData
     )) as ServiceRequest[];
 
+    //update user items count here
     console.log("service req save result => ", res);
     return NextResponse.json(res[0], { status: 200 });
   } else {
