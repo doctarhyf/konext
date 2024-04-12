@@ -12,6 +12,9 @@ export async function GET(req: NextRequest) {
     for (const koopUser of loadedUsers) {
       const {
         id,
+        profile,
+        display_name,
+        phone,
         created_at,
         shop_name,
         shop_tags,
@@ -27,6 +30,9 @@ export async function GET(req: NextRequest) {
 
       const shop: KoopShop = {
         id: id,
+        profile: profile,
+        display_name: display_name,
+        phone: phone,
         shop_id: id,
         created_at: created_at,
         shop_name: shop_name,

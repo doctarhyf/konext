@@ -44,6 +44,12 @@ export interface Comment {
 
 export type KoopShop = {
   id: number; // Changed Number to number
+
+  //user info
+  profile: string;
+  display_name: string;
+  phone: string;
+
   created_at: Date;
   shop_id: number;
   shop_name: string;
