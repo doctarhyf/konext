@@ -20,10 +20,10 @@ export async function GET(req: NextRequest) {
     ];
     const res = await Promise.all(promises);
 
-    const r = await SB.removeAllFilesAndDirectories();
+    //const r = await SB.removeAllFilesAndDirectories();
 
     console.warn("res del tables => ", res);
-    console.warn("res del files => ", r);
+    // console.warn("res del files => ", r);
 
     return NextResponse.json("Database reset success!", { status: 200 });
   }
