@@ -8,8 +8,21 @@ export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   const params = new URL(req.url).searchParams;
-  const user_id = params.get("id");
-  const finalSReqsArray: ServiceRequest[] = [];
+  const item_id = params.get("item_id");
+
+  if (!item_id) {
+    return NextResponse.json(
+      { error: true, message: "item_id not defined!" },
+      { status: 500 }
+    );
+  }
+
+  const r = await SB.removeServReq(item_id);
+  console.log(`Res remove item_id "${item_id}" => \n`, r);
+
+  return NextResponse.json(r, { status: 200 });
+
+  /* const finalSReqsArray: ServiceRequest[] = [];
 
   //console.error("user id => ", user_id);
 
@@ -66,5 +79,5 @@ export async function GET(req: NextRequest) {
       { error: true, message: "Internal server error : " + JSON.stringify(e) },
       { status: 500 }
     );
-  }
+  } */
 }

@@ -218,6 +218,71 @@ export async function insertItem(tableName, data) {
   }
 }
 
+function getStoragePathFromPublicURL(publicURL) {
+  const bucketName = "koop";
+  const path = publicURL.split(`/${bucketName}/`)[1];
+
+  //console.log(`Public url : "${publicURL}"`);
+  //console.log(`Relative url : "${path}"`);
+
+  return path;
+}
+
+export async function removeServReq(item_id) {
+  try {
+    const { data, error } = await supabase
+      .from(TABLE_NAMES.KOOP_SERVICE_REQUEST)
+      .select("images")
+      .eq("id", item_id);
+    //const r =  await supabase.from(TABLE_NAMES.KOOP_SERVICE_REQUEST).delete().eq('id', item_id).single()
+
+    //const
+
+    if (error) {
+      console.error(error);
+      return error;
+    }
+
+    if (data.length === 1) {
+      const images = data[0].images;
+
+      console.warn("Images => ", images);
+
+      if (images && images.length > 0) {
+        const pmz = [];
+
+        images.forEach((url, i) => {
+          const pathToRemove = getStoragePathFromPublicURL(url);
+          console.log(`Removing "${pathToRemove}"`);
+
+          pmz.push(supabase.storage.from("koop").remove(pathToRemove));
+        });
+
+        let r = await Promise.all(pmz);
+        r = await supabase
+          .from(TABLE_NAMES.KOOP_SERVICE_REQUEST)
+          .delete()
+          .eq("id", item_id);
+
+        return r;
+      } else {
+        const error = {
+          error: true,
+          message: `No images found for item_id ${item_id}`,
+        };
+        return error;
+      }
+    }
+
+    return {
+      error: true,
+      message: `Item with item_id '${item_id}' not found!`,
+    };
+  } catch (e) {
+    return e;
+  }
+}
+
 export async function removeItem(tableName, itemdata) {
   //const { data, error } = await supabase.from(tableName).delete().eq(itemdata);
   let query = supabase.from(tableName).delete();
