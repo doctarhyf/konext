@@ -1,4 +1,4 @@
-import { deleteItem } from "@/db/db";
+import * as SB from "@/db/db";
 import { TABLE_NAMES } from "@/db/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,16 +9,22 @@ export async function GET(req: NextRequest) {
 
   if (pwd === "1505") {
     const promises = [
-      deleteItem(TABLE_NAMES.KOOP_USERS),
-      deleteItem(TABLE_NAMES.KOOP_SERVICE_REQUEST),
-      deleteItem(TABLE_NAMES.KOOP_MESSAGES),
-      deleteItem(TABLE_NAMES.KOOP_ITEM_VIEWS_COUNT),
-      deleteItem(TABLE_NAMES.KOOP_ITEMS_LIKES),
-      deleteItem(TABLE_NAMES.KOOP_ITEMS),
-      deleteItem(TABLE_NAMES.KOOP_CONTACT_US),
-      deleteItem(TABLE_NAMES.KOOP_COMMENTS),
+      SB.deleteItem(TABLE_NAMES.KOOP_USERS),
+      SB.deleteItem(TABLE_NAMES.KOOP_SERVICE_REQUEST),
+      SB.deleteItem(TABLE_NAMES.KOOP_MESSAGES),
+      SB.deleteItem(TABLE_NAMES.KOOP_ITEM_VIEWS_COUNT),
+      SB.deleteItem(TABLE_NAMES.KOOP_ITEMS_LIKES),
+      SB.deleteItem(TABLE_NAMES.KOOP_ITEMS),
+      SB.deleteItem(TABLE_NAMES.KOOP_CONTACT_US),
+      SB.deleteItem(TABLE_NAMES.KOOP_COMMENTS),
     ];
     const res = await Promise.all(promises);
+
+    const r = await SB.removeAllFilesAndDirectories();
+
+    console.warn("res del tables => ", res);
+    console.warn("res del files => ", r);
+
     return NextResponse.json("Database reset success!", { status: 200 });
   }
 

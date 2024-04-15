@@ -348,3 +348,33 @@ export async function deleteItem(tableName, rowName, rowVal) {
 
   return await r;
 }
+
+export async function removeAllFilesAndDirectories() {
+  // Fetch all items (files and directories) from the bucket
+  const { data, error } = await supabase.storage.from("koop").list();
+
+  if (error) {
+    console.error("Error fetching items:", error.message);
+    return;
+  }
+
+  // Delete each item
+  for (const item of data) {
+    const { error: deleteError } = await supabase.storage
+      .from("koop")
+      .remove(item.name);
+
+    if (deleteError) {
+      console.error(`Error deleting ${item.name}:`, deleteError.message);
+      return deleteError;
+    } else {
+      console.log(`${item.name} deleted successfully`);
+      return true;
+    }
+  }
+
+  console.log("All files and directories deleted from the bucket");
+  return true;
+}
+
+removeAllFilesAndDirectories();
