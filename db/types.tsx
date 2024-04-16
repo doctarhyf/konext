@@ -86,3 +86,8 @@ export interface ServiceRequest {
   user_data: User | null;
   timeAgo: string | null;
 }
+
+export const ITEM_TYPE = {
+  SERVICE_REQUEST: "sreq",
+  SHOP: "shop",
+};

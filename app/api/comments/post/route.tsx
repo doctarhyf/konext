@@ -1,16 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
 import { TABLE_NAMES } from "@/db/supabase";
+import { ITEM_TYPE } from "@/db/types";
 
 export const dynamic = "force-dynamic";
-
-/*
-
- "item_id": 26,
-    "posted_by_id": 66,
-    "comment": "I’m not going back in the house yet 🔥 😎 🦫 "
-
-*/
 
 export async function POST(req: NextRequest) {
   const commentBody = await req.json();
@@ -27,9 +20,16 @@ export async function POST(req: NextRequest) {
   try {
     const res = await SB.insertItem(TABLE_NAMES.KOOP_COMMENTS, commentBody);
     const count = await SB.countItemComments(item_id, item_type);
-    const upd = await SB.updateItem(TABLE_NAMES.KOOP_SERVICE_REQUEST, item_id, {
+
+    let updTable =
+      item_type === ITEM_TYPE.SERVICE_REQUEST
+        ? TABLE_NAMES.KOOP_SERVICE_REQUEST
+        : TABLE_NAMES.KOOP_USERS;
+
+    const upd = await SB.updateItem(updTable, item_id, {
       comments_count: count,
     });
+
     console.log("userData => ", res);
     return NextResponse.json(res, { status: 200 });
   } catch (e) {
