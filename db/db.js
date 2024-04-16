@@ -234,9 +234,6 @@ export async function removeServReq(item_id) {
       .from(TABLE_NAMES.KOOP_SERVICE_REQUEST)
       .select("images")
       .eq("id", item_id);
-    //const r =  await supabase.from(TABLE_NAMES.KOOP_SERVICE_REQUEST).delete().eq('id', item_id).single()
-
-    //const
 
     if (error) {
       console.error(error);
@@ -270,14 +267,20 @@ export async function removeServReq(item_id) {
           error: true,
           message: `No images found for item_id ${item_id}`,
         };
-        return error;
+        // return error;
       }
+    } else {
+      return {
+        error: true,
+        message: `Item with item_id '${item_id}' not found!`,
+      };
     }
 
-    return {
-      error: true,
-      message: `Item with item_id '${item_id}' not found!`,
-    };
+    const r = await supabase
+      .from(TABLE_NAMES.KOOP_SERVICE_REQUEST)
+      .delete()
+      .eq("id", item_id)
+      .single();
   } catch (e) {
     return e;
   }

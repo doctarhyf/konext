@@ -18,9 +18,8 @@ export async function POST(req: NextRequest) {
       sreqData
     )) as ServiceRequest[];
 
-    const data = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", user_id);
-    if (data && data.length === 1) {
-      const user = data[0];
+    const user = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", user_id);
+    if (user) {
       const r = await SB.updateUserData(
         user_id,
         "items_count",
