@@ -377,4 +377,12 @@ export async function removeAllFilesAndDirectories() {
   return true;
 }
 
-removeAllFilesAndDirectories();
+export async function incrementValue(tableName, rowToInrement, keyRow, keyVal) {
+  const d = await supabase
+    .from(tableName)
+    .select(rowToInrement)
+    .eq(keyRow, keyVal);
+
+  console.log(`Selecting rowToIncrement ${rowToInrement}`);
+  return d;
+}

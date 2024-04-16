@@ -18,7 +18,27 @@ export async function GET(req: NextRequest) {
   }
 
   try {
+    const item = await SB.loadItem(
+      TABLE_NAMES.KOOP_SERVICE_REQUEST,
+      "id",
+      item_id
+    );
+
+    if (item && item[0]) {
+      const user_id = item.user_id;
+      const data = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", user_id);
+      if (data && data.length === 1) {
+        const user = data[0];
+        const r = await SB.updateUserData(
+          user_id,
+          "items_count",
+          parseInt(user.items_count) - 1
+        );
+      }
+    }
+
     const r = await SB.removeServReq(item_id);
+
     return NextResponse.json(r, { status: 200 });
   } catch (e) {
     return NextResponse.json(e, { status: 500 });

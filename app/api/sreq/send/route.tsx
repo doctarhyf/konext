@@ -18,8 +18,16 @@ export async function POST(req: NextRequest) {
       sreqData
     )) as ServiceRequest[];
 
-    //update user items count here
-    console.log("service req save result => ", res);
+    const data = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", user_id);
+    if (data && data.length === 1) {
+      const user = data[0];
+      const r = await SB.updateUserData(
+        user_id,
+        "items_count",
+        parseInt(user.items_count) + 1
+      );
+    }
+
     return NextResponse.json(res[0], { status: 200 });
   } else {
     return NextResponse.json(
