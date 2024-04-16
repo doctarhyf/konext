@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
       item_id
     );
 
-    if (item && item[0]) {
+    if (item) {
       const user_id = item.user_id;
       const user = await SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", user_id);
       if (user) {
