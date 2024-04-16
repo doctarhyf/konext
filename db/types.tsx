@@ -66,6 +66,7 @@ export type KoopShop = {
   shop_tiktok: string;
   shop_facebook: string;
   items_count: number;
+  comments_count: number;
 };
 
 export interface UserDataUpdate {

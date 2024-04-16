@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
         shop_tiktok,
         shop_facebook,
         items_count,
+        comments_cout,
       } = koopUser;
 
       const shop: KoopShop = {
@@ -47,6 +48,7 @@ export async function GET(req: NextRequest) {
         shop_tiktok: shop_tiktok,
         shop_facebook: shop_facebook,
         items_count: items_count,
+        comments_count: comments_cout,
       };
 
       koopShops.push(shop);
