@@ -12,6 +12,7 @@ export const TABLE_NAMES = {
   KOOP_ITEMS_LIKES: "koop_items_likes",
   KOOP_MESSAGES: "koop_messages",
   KOOP_SERVICE_REQUEST: "koop_serv_req",
+  KOOP_SUBSCRIPTIONS_BUNDLES: "koop_subscriptions_bundles",
 };
 
 // Initialize Supabase client
