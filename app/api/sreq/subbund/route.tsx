@@ -5,6 +5,8 @@ import { ServiceRequest, User } from "@/db/types";
 import { timeAgo } from "@/app/utils/funcs";
 import { error } from "console";
 
+//sub bund for "subscriotions bundles"
+
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
