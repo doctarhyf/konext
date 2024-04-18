@@ -5,9 +5,17 @@ import { KoopShop } from "@/db/types";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
-  const loadedUsers = await SB.loadAllItems("koop_users");
-  const koopShops: KoopShop[] = [];
+  try {
+    const users = await SB.loadAllItems("koop_users");
 
+    return NextResponse.json(users, { status: 200 });
+  } catch (e) {
+    return NextResponse.json(e, { status: 500 });
+  }
+
+  /* 
+  const koopShops: KoopShop[] = [];
+  
   if (Array.isArray(loadedUsers)) {
     for (const koopUser of loadedUsers) {
       const {
@@ -56,5 +64,5 @@ export async function GET(req: NextRequest) {
 
     console.log(koopShops);
     return NextResponse.json(koopShops, { status: 200 });
-  }
+  } */
 }
