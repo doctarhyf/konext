@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
 import supabase, { TABLE_NAMES } from "@/db/supabase";
 import { Message } from "@/db/types";
+import { timeAgo } from "@/app/utils/funcs";
 
 export const dynamic = "force-dynamic";
 
@@ -47,7 +48,11 @@ export async function GET(req: NextRequest) {
       if (!messagesGroupedByID[contact_id])
         messagesGroupedByID[contact_id] = [];
 
-      messagesGroupedByID[contact_id].push({ ...msg, me: me });
+      messagesGroupedByID[contact_id].push({
+        ...msg,
+        me: me,
+        timeAgo: timeAgo(new Date(msg.created_at)),
+      });
     });
 
     const contacts = await Promise.all(contactPromises);
