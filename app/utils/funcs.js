@@ -28,7 +28,7 @@ export async function sendNotification(title, body, data, bigPicUrl) {
     title: title,
     body: body,
     dateSent: new Date().toISOString(),
-    pushData: data ? JSON.stringify(data) : null,
+    pushData: data,
     bigPictureURL: bigPicUrl,
   };
 
