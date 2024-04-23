@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import * as SB from "@/db/db";
 import { TABLE_NAMES } from "@/db/supabase";
 import { ServiceRequest } from "@/db/types";
+import { sendNotification } from "@/app/utils/funcs";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +27,13 @@ export async function POST(req: NextRequest) {
         parseInt(user.items_count) + 1
       );
     }
+
+    const notres = await sendNotification(
+      `New item posted by ${user.display_name}`,
+      sreqData.label,
+      sreqData
+    );
+    console.log(notres);
 
     return NextResponse.json(res[0], { status: 200 });
   } else {
