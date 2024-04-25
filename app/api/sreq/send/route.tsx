@@ -26,17 +26,19 @@ export async function POST(req: NextRequest) {
         "items_count",
         parseInt(user.items_count) + 1
       );
+      
+      const notres = await sendNotification(
+      `New item posted by ${user.display_name}`,
+      label,
+      JSON.stringify(sreqData)
+    );
+    console.log(notres);  
     }
 
 
-/*
 
-    const notres = await sendNotification(
-      `New item posted by ${user.display_name}`,
-      sreqData.label,
-      sreqData
-    );
-    console.log(notres);  */
+
+    
 
     return NextResponse.json(res[0], { status: 200 });
   } else {
