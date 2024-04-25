@@ -28,12 +28,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
+
+/*
+
     const notres = await sendNotification(
       `New item posted by ${user.display_name}`,
       sreqData.label,
       sreqData
     );
-    console.log(notres);
+    console.log(notres);  */
 
     return NextResponse.json(res[0], { status: 200 });
   } else {
