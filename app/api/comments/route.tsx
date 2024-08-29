@@ -30,10 +30,14 @@ export async function GET(req: NextRequest) {
       }
     });
 
+    //posted_by_ids = comments.map((it) => it.posted_by_id)
+
     const posted_by_promises: Promise<User>[] = [];
     posted_by_ids.forEach((id, i) =>
       posted_by_promises.push(SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", id))
     );
+
+    // posted_by_promises = posted_by_ids.map((it) => SB.loadItem(TABLE_NAMES.KOOP_USERS, "id", id))
 
     const users = await Promise.all(posted_by_promises);
     console.log(`Loaded users \n ${JSON.stringify(users)}`);
