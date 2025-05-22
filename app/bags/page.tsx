@@ -55,13 +55,23 @@ export default function Bags() {
       date_time: "2025.05.22 20:30",
     };
     try {
+      const { data, error } = await supabase_shuini
+        .from("sacs_stock_cont")
+        .select("*")
+        .order("created_at", { ascending: false }) // or 'id'
+        .limit(1)
+        .single();
+
+      console.log("data", data);
+      alert("data :" + data);
+
       const res = await supabase_shuini
         .from("sacs_sortie_cont")
         .insert([data])
         .select();
 
       alert(JSON.stringify(res));
-      window.location.href = "https://gongren.vercel.app";
+      // window.location.href = "https://gongren.vercel.app";
       return res.error ? { error: true, ...res.error } : res.data;
     } catch (e) {
       return e;
