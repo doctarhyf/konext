@@ -10,7 +10,7 @@ const supabase_shuini = createClient(
 );
 
 export { supabase_shuini };
-
+//this is cool
 export default function Page() {
   const users: Record<string, string> = {
     TYY: "谭义勇",
