@@ -11,7 +11,7 @@ const supabase_shuini = createClient(
 
 export { supabase_shuini };
 
-export default function Bags() {
+export default function Page() {
   const users: Record<string, string> = {
     TYY: "谭义勇",
     ZF: "赵峰",
