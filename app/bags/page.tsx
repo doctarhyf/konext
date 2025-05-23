@@ -127,7 +127,10 @@ export default function Page() {
         <BagSearch onNameLoaded={onNameLoad} />
       </Suspense>
       <div className=" max-h-min rounded-md m-2 bg-gradient-to-tr  max-w-48 border  border-gray-500 from-gray-100 to-white flex flex-col  justify-center p-4">
-        <div>{name}先生你好!</div>
+        <div>
+          <div className=" text-3xl ">{name}</div>
+          <div>先生你好!</div>
+        </div>
 
         <div className=" border-b border-slate-500 py-2  ">
           <div>s32: {containerStock.s32}</div>
