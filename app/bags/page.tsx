@@ -144,86 +144,92 @@ export default function Bags() {
 
   return (
     <div className="main h-screen text-black">
-      <div>
-        <div>s32: {containerStock.s32}</div>
-        <div>s42: {containerStock.s42}</div>
-        {JSON.stringify(containerStock)}
-      </div>
+      <div className=" max-h-min rounded-md m-2 bg-gradient-to-tr  max-w-48 border  border-gray-500 from-gray-100 to-white flex flex-col  justify-center p-4">
+        <div>{name}先生你好!</div>
 
-      <div>{name}先生你好!</div>
-      <div>您想令几包袋子</div>
-      <div>包</div>
-      <div>
-        <input
-          type="number"
-          value={bags}
-          onChange={(e) => setBags(parseInt(e.target.value))}
-        />
-      </div>
-
-      <div>包 Type</div>
-
-      <div>
-        <select
-          value={bagType}
-          onChange={(e) => setBagType(e.target.value as "s32" | "s42")}
-          title="bao"
-        >
-          {["s32", "s42"].map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div>多少袋子的包</div>
-      <div>
-        <select
-          value={bagsInBao}
-          onChange={(e) => setBagsInBao(parseInt(e.target.value))}
-          title="bao"
-        >
-          {[300, 500].map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>班组</div>
-      <div>
-        <select
-          value={team ?? ""}
-          onChange={(e) => setTeam(e.target.value)}
-          title="bao"
-        >
-          {["A", "B", "C"].map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>总和</div>
-      <div className=" text-3xl ">{total} 袋</div>
-
-      {errorStockOverflow ? (
-        <div>
-          The number of bags to be delivered cant be superior to the available
-          stock
+        <div className=" border-b border-slate-500 py-2  ">
+          <div>s32: {containerStock.s32}</div>
+          <div>s42: {containerStock.s42}</div>
         </div>
-      ) : (
-        !loading && (
-          <button
-            onClick={(e) => onSave(name, total, team ?? "", "2025.05.22")}
-          >
-            CONFIRM
-          </button>
-        )
-      )}
 
-      {loading && <div>Loading...</div>}
+        <div>您想令几包袋子</div>
+        <div>包</div>
+        <div>
+          <input
+            className="border-2 border-gray-300 rounded-md p-1 w-24 "
+            type="number"
+            value={bags}
+            onChange={(e) => setBags(parseInt(e.target.value))}
+          />
+        </div>
+
+        <div>包 Type</div>
+
+        <div>
+          <select
+            value={bagType}
+            onChange={(e) => setBagType(e.target.value as "s32" | "s42")}
+            title="bao"
+            className="border-2 border-gray-300 rounded-md p-1 w-24 "
+          >
+            {["s32", "s42"].map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>多少袋子的包</div>
+        <div>
+          <select
+            value={bagsInBao}
+            onChange={(e) => setBagsInBao(parseInt(e.target.value))}
+            title="bao"
+            className="border-2 border-gray-300 rounded-md p-1 w-24 "
+          >
+            {[300, 500].map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>班组</div>
+        <div>
+          <select
+            value={team ?? ""}
+            onChange={(e) => setTeam(e.target.value)}
+            title="bao"
+            className="border-2 border-gray-300 rounded-md p-1 w-24 "
+          >
+            {["A", "B", "C"].map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>总和</div>
+        <div className=" text-3xl ">{total} 袋</div>
+
+        {errorStockOverflow ? (
+          <div>
+            The number of bags to be delivered cant be superior to the available
+            stock
+          </div>
+        ) : (
+          !loading && (
+            <button
+              onClick={(e) => onSave(name, total, team ?? "", "2025.05.22")}
+            >
+              CONFIRM
+            </button>
+          )
+        )}
+
+        {loading && <div>Loading...</div>}
+      </div>
     </div>
   );
 }
