@@ -2,7 +2,8 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import BagSearch from "./bag_search";
 
 const supabase_shuini = createClient(
   "https://ltvavdcgdrfqhlfpgkks.supabase.co",
@@ -141,6 +142,9 @@ export default function Page() {
 
   return (
     <div className="main h-screen text-black">
+      <Suspense fallback={<p>Loading search...</p>}>
+        <BagSearch />
+      </Suspense>
       <div className=" max-h-min rounded-md m-2 bg-gradient-to-tr  max-w-48 border  border-gray-500 from-gray-100 to-white flex flex-col  justify-center p-4">
         <div>{name}先生你好!</div>
 
