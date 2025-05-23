@@ -10,7 +10,7 @@ export default function BagsSearch({
   onNameLoaded: (name: string | undefined) => void;
 }) {
   const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  const id = searchParams.get("id")?.toUpperCase();
 
   const users: Record<string, string> = {
     TYY: "谭义勇",
@@ -26,7 +26,8 @@ export default function BagsSearch({
 
   useEffect(() => {
     const name = id ? users[id] : undefined;
-    onNameLoaded(name); // Pass the query to the parent component
+    onNameLoaded(name);
+    console.log("id", id, "name", name); // Pass the query to the parent component
   }, [id]);
 
   return <div>Search query: {name ?? ""}</div>;
