@@ -40,13 +40,6 @@ export default function Bags() {
     s32: 0,
     s42: 0,
   });
-  if (!name) {
-    return (
-      <div className="main h-screen text-black">
-        <h1 className="text-2xl">没有找到该用户</h1>{" "}
-      </div>
-    );
-  }
 
   useEffect(() => {
     fetchData();
@@ -94,6 +87,14 @@ export default function Bags() {
     //  }
     setTotal(total);
   }, [bags, bagsInBao, bagType, containerStock, team]);
+
+  if (!name) {
+    return (
+      <div className="main h-screen text-black">
+        <h1 className="text-2xl">没有找到该用户</h1>{" "}
+      </div>
+    );
+  }
 
   async function onSave(
     fuzeren: string,
