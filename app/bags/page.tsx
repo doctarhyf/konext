@@ -11,20 +11,7 @@ const supabase_shuini = createClient(
 );
 
 export default function Page() {
-  const users: Record<string, string> = {
-    TYY: "谭义勇",
-    ZF: "赵峰",
-    WG: "王刚",
-    ZYB: "张玉波",
-    WZR: "武子瑞",
-    XH: "徐华",
-    LG: "李刚",
-  };
-
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id")?.toUpperCase(); // e.g. "ZYB"
-
-  const name = id ? users[id] : undefined;
+  const [name, setName] = useState<string | undefined>(undefined);
   const [errorStockOverflow, seterrorStockOverflow] = useState<boolean>(false);
   const [bags, setBags] = useState<number>(0);
   const [bagsInBao, setBagsInBao] = useState<number>(300);
@@ -87,14 +74,6 @@ export default function Page() {
     setTotal(total);
   }, [bags, bagsInBao, bagType, containerStock, team]);
 
-  if (!name) {
-    return (
-      <div className="main h-screen text-black">
-        <h1 className="text-2xl">没有找到该用户</h1>{" "}
-      </div>
-    );
-  }
-
   async function onSave(
     fuzeren: string,
     daizi: number,
@@ -136,14 +115,20 @@ export default function Page() {
       setLoading(false);
       return e;
     }
-
-    setLoading(false);
   }
 
-  return (
+  function onNameLoad(name: string | undefined) {
+    setName(name);
+  }
+
+  return !name ? (
+    <div className="main h-screen text-black">
+      <h1 className="text-2xl">没有找到该用户</h1>{" "}
+    </div>
+  ) : (
     <div className="main h-screen text-black">
       <Suspense fallback={<p>Loading search...</p>}>
-        <BagSearch />
+        <BagSearch onNameLoaded={onNameLoad} />
       </Suspense>
       <div className=" max-h-min rounded-md m-2 bg-gradient-to-tr  max-w-48 border  border-gray-500 from-gray-100 to-white flex flex-col  justify-center p-4">
         <div>{name}先生你好!</div>
