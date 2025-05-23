@@ -107,9 +107,9 @@ export default function Page() {
         .insert([newStock])
         .select();
 
-      // window.location.href = "https://gongren.vercel.app";
       alert(JSON.stringify(res));
       setLoading(false);
+      window.location.href = "https://gongren.vercel.app";
       return res.error ? { error: true, ...res.error } : res.data;
     } catch (e) {
       setLoading(false);
