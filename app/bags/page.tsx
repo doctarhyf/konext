@@ -26,15 +26,6 @@ export default function Bags() {
   const id = searchParams.get("id")?.toUpperCase(); // e.g. "ZYB"
 
   const name = id ? users[id] : undefined;
-
-  if (!name) {
-    return (
-      <div className="main h-screen text-black">
-        <h1 className="text-2xl">没有找到该用户</h1>{" "}
-      </div>
-    );
-  }
-
   const [errorStockOverflow, seterrorStockOverflow] = useState<boolean>(false);
   const [bags, setBags] = useState<number>(0);
   const [bagsInBao, setBagsInBao] = useState<number>(300);
@@ -49,6 +40,13 @@ export default function Bags() {
     s32: 0,
     s42: 0,
   });
+  if (!name) {
+    return (
+      <div className="main h-screen text-black">
+        <h1 className="text-2xl">没有找到该用户</h1>{" "}
+      </div>
+    );
+  }
 
   useEffect(() => {
     fetchData();
