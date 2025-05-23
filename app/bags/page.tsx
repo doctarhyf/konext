@@ -121,11 +121,7 @@ export default function Page() {
     setName(name);
   }
 
-  return !name ? (
-    <div className="main h-screen text-black">
-      <h1 className="text-2xl">没有找到该用户</h1>{" "}
-    </div>
-  ) : (
+  return (
     <div className="main h-screen text-black">
       <Suspense fallback={<p>Loading search...</p>}>
         <BagSearch onNameLoaded={onNameLoad} />
@@ -207,7 +203,9 @@ export default function Page() {
         ) : (
           !loading && (
             <button
-              onClick={(e) => onSave(name, total, team ?? "", "2025.05.22")}
+              onClick={(e) =>
+                onSave(name ?? "", total, team ?? "", "2025.05.22")
+              }
             >
               CONFIRM
             </button>
