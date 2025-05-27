@@ -10,6 +10,21 @@ const supabase_shuini = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0dmF2ZGNnZHJmcWhsZnBna2tzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTA1NzEwMjUsImV4cCI6MjAwNjE0NzAyNX0.nAuA5lILpr3giK0fiurM0DprdD1JAf4xgam0laMGfRU"
 );
 
+type ProductionData = {
+  team: string;
+  sortis32: number;
+  tonnage32: number;
+  sortis42: number;
+  tonnage42: number;
+  dechires32: number;
+  dechires42: number;
+  utilises32: number;
+  utilises42: number;
+  date_time: string;
+  restants32: number;
+  restants42: number;
+};
+
 export default function Page() {
   const [name, setName] = useState<string | undefined>(undefined);
   const [errorStockOverflow, seterrorStockOverflow] = useState<boolean>(false);
@@ -25,6 +40,20 @@ export default function Page() {
   }>({
     s32: 0,
     s42: 0,
+  });
+  const [data, setData] = useState<ProductionData>({
+    team: "A",
+    sortis32: 0,
+    tonnage32: 0,
+    sortis42: 0,
+    tonnage42: 0,
+    dechires32: 0,
+    dechires42: 0,
+    utilises32: 0,
+    utilises42: 0,
+    date_time: "2025-05-27T19:18",
+    restants32: 0,
+    restants42: 0,
   });
 
   useEffect(() => {
@@ -72,7 +101,23 @@ export default function Page() {
     total = bags * bagsInBao;
     //  }
     setTotal(total);
-  }, [bags, bagsInBao, bagType, containerStock, team]);
+
+    //console.log("Old data:", data, name);
+    const nd: ProductionData = { ...data };
+
+    if (bagType === "s32") {
+      nd.sortis32 = total;
+    }
+
+    if (bagType === "s42") {
+      nd.sortis42 = total;
+    }
+
+    nd.team = team ?? "A";
+    nd.date_time = new Date().toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm format
+
+    console.log("New data:", nd, "Name:", name);
+  }, [bags, bagsInBao, bagType, containerStock, team, name]);
 
   async function onSave(
     fuzeren: string,
@@ -114,6 +159,72 @@ export default function Page() {
     } catch (e) {
       setLoading(false);
       return e;
+    }
+  }
+
+  const [stock_cont, set_stock_cont] = useState({
+    s32: 0,
+    s42: 0,
+  });
+
+  async function onAddTrans(data: ProductionData) {
+    /* {
+    "team": "A",
+    "sortis32": 0,
+    "tonnage32": 0,
+    "sortis42": 100,
+    "tonnage42": 0,
+    "dechires32": 0,
+    "dechires42": 0,
+    "utilises32": 0,
+    "utilises42": 0,
+    "date_time": "2025-05-27T19:18",
+    "restants32": 0,
+    "restants42": 100
+} */
+
+    const pr_trans_prod = supabase_shuini.from("sacs_prod").insert(data);
+
+    const new_stock_prod = { s32: data.restants32, s42: data.restants42 };
+    //set_stock_prod(new_stock_prod);
+    const pr_stock_prod = supabase_shuini
+      .from("sacs_stock_prod")
+      .insert(new_stock_prod);
+
+    // console.log("data", data);
+    // console.log("stock_cont", stock_cont);
+
+    const { sortis32, sortis42 } = data;
+    const { s32, s42 } = stock_cont;
+
+    const new_stock_container = { s32: s32 - sortis32, s42: s42 - sortis42 };
+
+    console.log("news", new_stock_container);
+
+    set_stock_cont(new_stock_container);
+
+    const pr_stock_cont = supabase_shuini
+      .from("sacs_stock_cont")
+      .insert(new_stock_container);
+
+    setLoading(true);
+    const res = await Promise.all([
+      pr_trans_prod,
+      pr_stock_prod,
+      pr_stock_cont,
+    ]);
+    const success = res.every((el) => el === null);
+
+    //console.log("res prod insert", res);
+
+    setLoading(false);
+
+    if (success) {
+      alert("Data saved!");
+      console.log(res);
+    } else {
+      //console.log(res);
+      alert(`Error saving data! \n ${JSON.stringify(res)}`);
     }
   }
 
@@ -216,7 +327,7 @@ export default function Page() {
               className=" mt-4 p-2 bg-gradient-to-tr hover:from-blue-900 hover:to-purple-900 from-blue-950 to-purple-900 text-white hover:text-purple-200 rounded-md shadow-sm  "
               onClick={(e) => {
                 if (window.confirm("Are you sure you want to confirm this?")) {
-                  onSave(name ?? "", total, team ?? "", "2025.05.22");
+                  onAddTrans(data);
                 }
               }}
             >
