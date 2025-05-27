@@ -30,5 +30,14 @@ export default function BagsSearch({
     console.log("id", id, "name", name); // Pass the query to the parent component
   }, [id]);
 
-  return <div>Search query: {name ?? ""}</div>;
+  return (
+    <div>
+      {
+        //'Search query:'
+      }{" "}
+      {
+        //name ?? ""
+      }
+    </div>
+  );
 }

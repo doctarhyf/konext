@@ -122,19 +122,26 @@ export default function Page() {
   }
 
   return (
-    <div className="main h-screen text-black">
+    <div className="main h-screen text-black w-full bg-gradient-to-tr from-slate-800 to-gray-100 flex flex-col items-center justify-center">
       <Suspense fallback={<p>Loading search...</p>}>
         <BagSearch onNameLoaded={onNameLoad} />
       </Suspense>
-      <div className=" max-h-min rounded-md m-2 bg-gradient-to-tr  max-w-48 border  border-gray-500 from-gray-100 to-white flex flex-col  justify-center p-4">
+      <div className=" shadow-md max-h-min rounded-md m-2 bg-gradient-to-t w-full max-w-80 border  border-gray-300 from-gray-200 to-white flex flex-col  justify-center p-4">
         <div>
-          <div className=" text-3xl ">{name}</div>
-          <div>先生你好!</div>
+          <img src="bt.png" alt="Bag icon" />
         </div>
 
-        <div className=" border-b border-slate-500 py-2  ">
-          <div>s32: {containerStock.s32}</div>
-          <div>s42: {containerStock.s42}</div>
+        <div className=" flex-col md:flex-row flex  justify-between border-b border-slate-500">
+          <div>
+            <div className=" text-3xl ">{name}</div>
+            <div>先生你好!</div>
+          </div>
+
+          <div className="  py-2 md:text-end  ">
+            <div className=" text-emerald-700 font-bold ">袋子库房</div>
+            <div>s32: {containerStock.s32}</div>
+            <div>s42: {containerStock.s42}</div>
+          </div>
         </div>
 
         <div>您想令几包袋子</div>
@@ -206,6 +213,7 @@ export default function Page() {
         ) : (
           !loading && (
             <button
+              className=" mt-4 p-2 bg-gradient-to-tr hover:from-blue-900 hover:to-purple-900 from-blue-950 to-purple-900 text-white hover:text-purple-200 rounded-md shadow-sm  "
               onClick={(e) =>
                 onSave(name ?? "", total, team ?? "", "2025.05.22")
               }
