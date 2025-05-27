@@ -144,7 +144,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div>您想令几包袋子</div>
+        <div>您想领多少袋子</div>
         <div>包</div>
         <div>
           <input
@@ -206,7 +206,7 @@ export default function Page() {
         <div className=" text-3xl ">{total} 袋</div>
 
         {errorStockOverflow ? (
-          <div>
+          <div className=" bg-red-900 text-red-200 p-2 shadow-sm  ">
             The number of bags to be delivered cant be superior to the available
             stock
           </div>
