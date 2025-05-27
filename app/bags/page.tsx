@@ -214,9 +214,11 @@ export default function Page() {
           !loading && (
             <button
               className=" mt-4 p-2 bg-gradient-to-tr hover:from-blue-900 hover:to-purple-900 from-blue-950 to-purple-900 text-white hover:text-purple-200 rounded-md shadow-sm  "
-              onClick={(e) =>
-                onSave(name ?? "", total, team ?? "", "2025.05.22")
-              }
+              onClick={(e) => {
+                if (window.confirm("Are you sure you want to confirm this?")) {
+                  onSave(name ?? "", total, team ?? "", "2025.05.22");
+                }
+              }}
             >
               CONFIRM
             </button>
