@@ -34,7 +34,14 @@ export default function Page() {
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [team, setTeam] = useState<string | null>(null);
-  const [containerStock, setContainerStock] = useState<{
+  const [stock_cont, set_stock_cont] = useState<{
+    s32: number;
+    s42: number;
+  }>({
+    s32: 0,
+    s42: 0,
+  });
+  const [stock_prod, set_stock_prod] = useState<{
     s32: number;
     s42: number;
   }>({
@@ -62,7 +69,7 @@ export default function Page() {
 
   async function fetchData() {
     setLoading(true);
-    const { data, error } = await supabase_shuini
+    let { data, error } = await supabase_shuini
       .from("sacs_stock_cont")
       .select("*")
       .order("created_at", { ascending: false }) // or 'id'
@@ -75,7 +82,25 @@ export default function Page() {
       console.error("Error fetching data:", error);
       setLoading(false);
     } else {
-      setContainerStock({ s32: data.s32, s42: data.s42 });
+      set_stock_cont({ s32: data.s32, s42: data.s42 });
+      setLoading(false);
+    }
+
+    setLoading(true);
+    let { data: data1, error: error1 } = await supabase_shuini
+      .from("sacs_stock_prod")
+      .select("*")
+      .order("created_at", { ascending: false }) // or 'id'
+      .limit(1)
+      .single();
+
+    console.log("data cont", data);
+
+    if (error1) {
+      console.error("Error fetching data:", error1);
+      setLoading(false);
+    } else {
+      set_stock_prod({ s32: data.s32, s42: data.s42 });
       setLoading(false);
     }
   }
@@ -86,13 +111,13 @@ export default function Page() {
     seterrorStockOverflow(false);
 
     if (bagType === "s32") {
-      if (bags * bagsInBao > containerStock.s32) {
+      if (bags * bagsInBao > stock_cont.s32) {
         seterrorStockOverflow(true);
       }
     }
 
     if (bagType === "s42") {
-      if (bags * bagsInBao > containerStock.s42) {
+      if (bags * bagsInBao > stock_cont.s42) {
         seterrorStockOverflow(true);
       }
     }
@@ -117,76 +142,13 @@ export default function Page() {
     nd.date_time = new Date().toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm format
 
     console.log("New data:", nd, "Name:", name);
-  }, [bags, bagsInBao, bagType, containerStock, team, name]);
-
-  async function onSave(
-    fuzeren: string,
-    daizi: number,
-    team: string,
-    date_time: string
-  ) {
-    setLoading(true);
-
-    const data = {
-      fuzeren: fuzeren,
-      daizi: daizi,
-      team: team,
-      date_time: date_time,
-    };
-    try {
-      const res = await supabase_shuini
-        .from("sacs_sortie_cont")
-        .insert([data])
-        .select();
-
-      const newStock32 =
-        bagType === "s32" ? containerStock.s32 - total : containerStock.s32;
-      const newStock42 =
-        bagType === "s42" ? containerStock.s42 - total : containerStock.s42;
-
-      const newStock = { s32: newStock32, s42: newStock42 };
-      setContainerStock(newStock);
-
-      const res2 = await supabase_shuini
-        .from("sacs_stock_cont")
-        .insert([newStock])
-        .select();
-
-      alert(JSON.stringify(res));
-      setLoading(false);
-      window.location.href = "https://gongren.vercel.app";
-      return res.error ? { error: true, ...res.error } : res.data;
-    } catch (e) {
-      setLoading(false);
-      return e;
-    }
-  }
-
-  const [stock_cont, set_stock_cont] = useState({
-    s32: 0,
-    s42: 0,
-  });
+  }, [bags, bagsInBao, bagType, stock_cont, team, name]);
 
   async function onAddTrans(data: ProductionData) {
-    /* {
-    "team": "A",
-    "sortis32": 0,
-    "tonnage32": 0,
-    "sortis42": 100,
-    "tonnage42": 0,
-    "dechires32": 0,
-    "dechires42": 0,
-    "utilises32": 0,
-    "utilises42": 0,
-    "date_time": "2025-05-27T19:18",
-    "restants32": 0,
-    "restants42": 100
-} */
-
     const pr_trans_prod = supabase_shuini.from("sacs_prod").insert(data);
 
     const new_stock_prod = { s32: data.restants32, s42: data.restants42 };
-    //set_stock_prod(new_stock_prod);
+    set_stock_prod(new_stock_prod);
     const pr_stock_prod = supabase_shuini
       .from("sacs_stock_prod")
       .insert(new_stock_prod);
@@ -215,7 +177,7 @@ export default function Page() {
     ]);
     const success = res.every((el) => el === null);
 
-    //console.log("res prod insert", res);
+    console.log("res prod insert", res);
 
     setLoading(false);
 
@@ -250,8 +212,8 @@ export default function Page() {
 
           <div className="  py-2 md:text-end  ">
             <div className=" text-emerald-700 font-bold ">袋子库房</div>
-            <div>s32: {containerStock.s32}</div>
-            <div>s42: {containerStock.s42}</div>
+            <div>s32: {stock_cont.s32}</div>
+            <div>s42: {stock_cont.s42}</div>
           </div>
         </div>
 
